@@ -1,4 +1,6 @@
-![](https://github.com/SoulXin/Laravel-Breeze-Next/blob/master/Ez.gif)
+<p style="text-align:center">
+  ![](https://github.com/SoulXin/Laravel-Breeze-Next/blob/master/Ez.gif)
+</p>
 
 This project using laravel as backend and next as frontend, which in this project is already has template admin.
 

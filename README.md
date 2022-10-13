@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="![](https://github.com/SoulXin/Laravel-Breeze-Next/blob/master/Ez.gif)" alt="animated" />
+  <img src=![](https://github.com/SoulXin/Laravel-Breeze-Next/blob/master/Ez.gif) alt="animated" />
 </p>
 
 This project using laravel as backend and next as frontend, which in this project is already has template admin.

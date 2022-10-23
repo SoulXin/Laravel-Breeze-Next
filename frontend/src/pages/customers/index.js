@@ -5,6 +5,9 @@ import ReactDOM from 'react-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faUserXmark } from '@fortawesome/free-solid-svg-icons';
 import $ from "jquery";
+import { withRouter } from 'next/router';
+import { toast } from "react-toastify";
+import axios from '../../lib/axios';
 
 class Index extends Component {
   componentDidMount(){
@@ -14,7 +17,7 @@ class Index extends Component {
       responsive: true,
       bDestroy: true,
       ajax: {
-          url: "http://backend.localhost/api/get-customer/",
+          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/customers`,
           type: 'GET',
       },
       columns: [
@@ -67,6 +70,7 @@ class Index extends Component {
               ><FontAwesomeIcon icon={faEdit} style={{ height: "15px" }} /></Button>
               <Button
                 className="btn btn-danger mx-1"
+                onClick={() => this.handleDelete(rowData['id'])} 
               ><FontAwesomeIcon icon={faUserXmark} style={{ height: "15px" }} /></Button>
             </Fragment>, td
           )
@@ -75,11 +79,32 @@ class Index extends Component {
     });
   }
 
+  async handleDelete(id) {
+    let isExecuted = confirm(`Are you sure to delete this produk with ID: ${id}?`);
+    if (isExecuted == true) {
+      try {
+        await axios.delete(`/api/customers/${id}`);
+        $(this.table).DataTable().ajax.reload();
+        toast.success("Success delete data");
+      } catch (error) {
+        toast.error(error);
+      }
+    }
+  }
+
   render() {
     return (
       <Layout>
         <Card>
-          <Card.Header>Customers</Card.Header>
+          <Card.Header>
+            Customers
+            <Button 
+              type='button' 
+              className='btn btn-primary float-end'
+              onClick={() => this.props.router.push(`/customers/add`)}
+            >Add</Button>
+          </Card.Header>
+
           <Card.Body>
             <Table responsive hover ref={(table) => (this.table = table)}>
               <thead>
@@ -110,4 +135,4 @@ export async function getStaticProps() {
   }
 }
 
-export default Index
+export default withRouter(Index)

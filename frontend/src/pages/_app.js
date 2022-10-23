@@ -12,6 +12,8 @@ import { useRouter } from 'next/router'
 import Login from './login';
 import { useEffect } from 'react';
 import NextNProgress from "nextjs-progressbar";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // You change this configuration value to false so that the Font Awesome core SVG library
 // will not try and insert <style> elements into the <head> of the page.
@@ -38,6 +40,18 @@ function MyApp({ Component, pageProps }) {
   return <SSRProvider>
       <NextNProgress 
         color='#0071e2'
+      />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
       />
       {
         isLoading ? <div className="loader"></div> : 

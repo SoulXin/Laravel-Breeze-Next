@@ -19,8 +19,8 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/customers', [CustomersController::class, 'index']);
-Route::get('/customers/{customers}', [CustomersController::class, 'detail']);
+Route::get('/customers', [CustomersController::class, 'index'])->middleware(['auth:sanctum']);
+Route::get('/customers/{customers}', [CustomersController::class, 'detail'])->middleware(['auth:sanctum']);
 Route::post('/customers/store', [CustomersController::class, 'store'])->middleware(['auth:sanctum']);
 Route::put('/customers/{customers}', [CustomersController::class, 'update'])->middleware(['auth:sanctum']);
 Route::delete('/customers/{customers}', [CustomersController::class, 'delete'])->middleware(['auth:sanctum']);

@@ -7,18 +7,26 @@ import { faEdit, faUserXmark } from '@fortawesome/free-solid-svg-icons';
 import $ from "jquery";
 import { withRouter } from 'next/router';
 import { toast } from "react-toastify";
-import axios from '../../lib/axios';
+import axios from 'axios';
 
 class Index extends Component {
   componentDidMount(){
+    const reactComponent = this;
+
     $(this.table).DataTable({
       processing: true,
       serverSide: true,
       responsive: true,
       bDestroy: true,
       ajax: {
-          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/customers`,
-          type: 'GET',
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/customers`,
+        type: 'GET',
+        headers: {
+          'X-Requested-With':'XMLHttpRequest',
+        },
+        xhrFields: {
+          withCredentials: true
+        },
       },
       columns: [
           {
@@ -66,7 +74,7 @@ class Index extends Component {
             <Fragment>
               <Button 
                 className="btn btn-success mx-1"
-                onClick={() => this.handleDetail(rowData['id'])} 
+                onClick={() => reactComponent.props.router.push(`/customers/detail/${rowData['id']}`)} 
               ><FontAwesomeIcon icon={faEdit} style={{ height: "15px" }} /></Button>
               <Button
                 className="btn btn-danger mx-1"
@@ -83,11 +91,11 @@ class Index extends Component {
     let isExecuted = confirm(`Are you sure to delete this produk with ID: ${id}?`);
     if (isExecuted == true) {
       try {
-        await axios.delete(`/api/customers/${id}`);
+        const response = await axios.delete(`/api/customers/${id}`);
         $(this.table).DataTable().ajax.reload();
-        toast.success("Success delete data");
+        toast.success(response.data.message);
       } catch (error) {
-        toast.error(error);
+        toast.error(error.response.data.message);
       }
     }
   }

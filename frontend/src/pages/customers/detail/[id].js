@@ -1,19 +1,37 @@
 import { Layout } from '../../../layout';
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Button, Card, Alert, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { withRouter } from 'next/router';
-import axios from '../../../lib/axios';
 import { toast } from "react-toastify";
+import axios from 'axios';
 
-const Index = (props) => {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+export async function getServerSideProps(context) {
+    const id = context.params.id
+    const response = await axios.get(`/api/customers/${id}`, {
+        headers: {...context.req.headers}
+    });
+    let data = await response.data.data;
+    return {
+      props: {
+        data,
+        id
+      }
+    };
+}
 
-    const onSubmit = async (data) => {
+const Index = ({data, id, router}) => {
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+
+    useEffect(() => {
+        reset(data);
+    }, [])
+    
+    const onSubmit = async (dataForm) => {
         try{
-            await axios.post(`/api/customers/store`, data);
-            toast.success("Success add data");
-            props.router.push('/customers');
+            const response = await axios.put(`/api/customers/${id}`, dataForm);
+            toast.success(response.data.message);
+            router.push('/customers');
         } catch (error){
             toast.error(error.response.data.message);
         }
@@ -23,11 +41,11 @@ const Index = (props) => {
         <Layout>
             <Card className="mb-4">
                 <Card.Header>
-                    Add Customers
+                    Detail Customers
                     <Button 
                     type='button' 
                     className='btn btn-danger float-end'
-                    onClick={() => props.router.push(`/customers`)}
+                    onClick={() => router.push(`/customers`)}
                     >Cancel</Button>
                 </Card.Header>
                     <Form onSubmit={handleSubmit(onSubmit)}>

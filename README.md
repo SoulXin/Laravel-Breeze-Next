@@ -11,7 +11,7 @@ Include:
 - Unit Testing ( on going )
 - Integration Testing ( on going )
 
-This project using laravel as backend and next as frontend, which in this project is already has template admin.
+**This project using laravel as backend and next as frontend, which in this project is already has template admin.**
 
 Version:
 - PHP 8.1

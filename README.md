@@ -6,6 +6,11 @@
   <img src="https://github.com/SoulXin/Laravel-Breeze-Next/blob/master/Ez.gif" alt="animated" />
 </p>
 
+Include:
+- CRUD
+- Unit Testing ( on going )
+- Integration Testing ( on going )
+
 This project using laravel as backend and next as frontend, which in this project is already has template admin.
 
 Version:
